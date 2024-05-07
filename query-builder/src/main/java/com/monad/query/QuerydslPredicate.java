@@ -56,7 +56,7 @@ public class QuerydslPredicate<E extends EntityPathBase, T> implements IPredicat
 
     @Override
     public QuerydslPredicate<E, T> anyOf(Predicate<? super T>... predicates) {
-        return null;
+        return filter(t->Stream.of(predicates).filter(pred -> pred.test(t)).findAny().isPresent());
     }
 
     @Override
