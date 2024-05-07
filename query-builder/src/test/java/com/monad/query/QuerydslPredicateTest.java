@@ -36,10 +36,10 @@ class QuerydslPredicateTest {
         QuerydslPredicate<QTestEntity, DefaultSearchDto> pipe = QuerydslPredicate.pipe(searchDto, queryBuilder);
 
         // Act
-        var anyOf = pipe.allOf(v -> ObjectUtils.isNotEmpty(v.getSearchField()),v->searchField.equals(v.getSearchField()));
+        var allOf = pipe.allOf(v -> ObjectUtils.isNotEmpty(v.getSearchField()),v->searchField.equals(v.getSearchField()));
 
         // Assertion
-        Assertions.assertTrue(anyOf.exists());
+        Assertions.assertTrue(allOf.exists());
     }
 
     @Test
