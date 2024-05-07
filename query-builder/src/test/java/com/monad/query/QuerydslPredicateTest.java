@@ -24,4 +24,21 @@ class QuerydslPredicateTest {
         Assertions.assertFalse(filter.exists());
 
     }
+
+    @Test
+    void allOf() {
+        // Arrange
+        final String searchField = "userName";
+        final DefaultSearchDto searchDto = DefaultSearchDto.builder()
+                                                           .searchField(searchField)
+                                                           .build();
+        QuerydslQueryBuilder<QTestEntity> queryBuilder = new QuerydslQueryBuilder(QTestEntity.testEntity);
+        QuerydslPredicate<QTestEntity, DefaultSearchDto> pipe = QuerydslPredicate.pipe(searchDto, queryBuilder);
+
+        // Act
+        var anyOf = pipe.allOf(v -> ObjectUtils.isNotEmpty(v.getSearchField()),v->searchField.equals(v.getSearchField()));
+
+        // Assertion
+        Assertions.assertTrue(anyOf.exists());
+    }
 }

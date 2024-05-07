@@ -61,7 +61,13 @@ public class QuerydslPredicate<E extends EntityPathBase, T> implements IPredicat
 
     @Override
     public QuerydslPredicate<E, T> allOf(Predicate<? super T>... predicates) {
-       return null;
+        return filter(t -> {
+            Boolean rst = true;
+            for (Predicate<? super T> predicate : predicates) {
+                rst = rst && predicate.test(t);
+            }
+            return rst;
+        });
     }
 
     @Override
