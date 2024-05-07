@@ -43,8 +43,8 @@ public class QuerydslPredicate<E extends EntityPathBase, T> implements IPredicat
         return  Optional.ofNullable(getTarget()).isPresent();
     }
 
-    public void ifPresent(BiFunction<? super T, E, BooleanExpression> expression) {
-
+    public Optional<T> peek(){
+        return getTarget();
     }
 
     @Override
@@ -72,7 +72,9 @@ public class QuerydslPredicate<E extends EntityPathBase, T> implements IPredicat
 
     @Override
     public <R> QuerydslPredicate<E, R> map(Function<? super T, ? extends R> mapper) {
-      return null;
+        Objects.requireNonNull(mapper);
+        Optional<? extends R> r = getTarget().map(mapper);
+        return of(r.orElse(null), getBuilder());
     }
 
 
