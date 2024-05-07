@@ -18,12 +18,12 @@ import lombok.Setter;
 @Setter(AccessLevel.PRIVATE)
 @Getter(AccessLevel.PRIVATE)
 public class QuerydslPredicate<E extends EntityPathBase, T> implements IPredicate<E, T> {
-    private T target;
+    private Optional<T> target;
     private QuerydslQueryBuilder<E> builder;
     private static QuerydslPredicate QuerydslPredicate;
 
     private QuerydslPredicate(T target, QuerydslQueryBuilder<E> builder) {
-        this.target = target;
+        this.target = Optional.ofNullable(target);
         this.builder = builder;
     }
 
@@ -40,7 +40,7 @@ public class QuerydslPredicate<E extends EntityPathBase, T> implements IPredicat
     }
 
     public Boolean exists(){
-        return  Optional.ofNullable(getTarget()).isPresent();
+        return  getTarget().isPresent();
     }
 
     public Optional<T> peek(){
@@ -50,7 +50,7 @@ public class QuerydslPredicate<E extends EntityPathBase, T> implements IPredicat
     @Override
     public QuerydslPredicate<E, T> filter(Predicate<? super T> predicate) {
         Objects.requireNonNull(predicate);
-        Optional<T> t = Optional.ofNullable(getTarget()).filter(predicate);
+        Optional<T> t = getTarget().filter(predicate);
         return of(t.orElse(null), getBuilder());
     }
 
