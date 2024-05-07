@@ -49,7 +49,9 @@ public class QuerydslPredicate<E extends EntityPathBase, T> implements IPredicat
 
     @Override
     public QuerydslPredicate<E, T> filter(Predicate<? super T> predicate) {
-        return null;
+        Objects.requireNonNull(predicate);
+        Optional<T> t = Optional.ofNullable(getTarget()).filter(predicate);
+        return of(t.orElse(null), getBuilder());
     }
 
     @Override
