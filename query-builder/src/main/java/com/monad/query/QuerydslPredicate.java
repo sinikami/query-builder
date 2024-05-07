@@ -77,6 +77,4 @@ public class QuerydslPredicate<E extends EntityPathBase, T> implements IPredicat
         Optional<? extends R> r = getTarget().map(mapper);
         return of(r.orElse(null), getBuilder());
     }
-
-
 }
