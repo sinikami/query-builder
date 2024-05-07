@@ -22,6 +22,7 @@ public class QuerydslPredicate<E extends EntityPathBase, T> implements IPredicat
     private QuerydslQueryBuilder<E> builder;
     private static QuerydslPredicate QuerydslPredicate;
 
+    private QuerydslPredicate() {}
     private QuerydslPredicate(T target, QuerydslQueryBuilder<E> builder) {
         this.target = Optional.ofNullable(target);
         this.builder = builder;
