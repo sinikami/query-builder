@@ -46,6 +46,14 @@ public class QuerydslPredicate<E extends EntityPathBase, T> implements IPredicat
         }
     }
 
+    @Override
+    public void ifPresent(BiFunction<? super T, E, BooleanExpression> expression) {
+        Objects.requireNonNull(expression);
+        Objects.requireNonNull(getBuilder());
+        getTarget().ifPresent(v -> {
+                    BooleanExpression predicate = expression.apply(v, getBuilder().getFrom());
+                    builder.merge(predicate);
+                });
     }
 
     public Boolean exists(){

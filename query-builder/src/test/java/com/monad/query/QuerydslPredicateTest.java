@@ -108,7 +108,33 @@ class QuerydslPredicateTest {
         var anyOf = pipe.anyOf(v ->v.getSearchField().equals(keyword),v->searchField.equals(v.getSearchField()));
         anyOf.ifPresent(v->v.userName.eq("userName"));
         Predicate predicate = queryBuilder.build();
-        System.out.println("predicate = " + predicate);
+
+       // Assertion
+        Assertions.assertEquals(predicate.toString(), booleanBuilder.toString());
+    }
+
+    @Test
+    public void ifPresent_BiFunction_test() {
+
+        // Arrange
+        final String searchField = "userName";
+        final String keyword = "sinikami";
+        final DefaultSearchDto searchDto = DefaultSearchDto.builder()
+                                                           .searchField(searchField)
+                                                           .keyword(keyword)
+                                                           .build();
+
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.and(QTestEntity.testEntity.userName.eq(searchField));
+        //Stubbing
+        QuerydslQueryBuilder<QTestEntity> queryBuilder = new QuerydslQueryBuilder(QTestEntity.testEntity);
+        QuerydslPredicate<QTestEntity, DefaultSearchDto> pipe = QuerydslPredicate.pipe(searchDto, queryBuilder);
+
+        //Act
+        var anyOf = pipe.anyOf(v ->v.getSearchField().equals(keyword),v->searchField.equals(v.getSearchField()));
+        anyOf.ifPresent((t,e)->e.userName.eq(t.getSearchField()));
+        Predicate predicate = queryBuilder.build();
+        //Assertion
         Assertions.assertEquals(predicate.toString(), booleanBuilder.toString());
     }
 }
