@@ -2,16 +2,21 @@ package com.monad.query;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import com.monad.query.dto.DefaultSearchDto;
 import com.monad.query.entity.QTestEntity;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 
+@TestMethodOrder(OrderAnnotation.class)
 class QuerydslPredicateTest {
 
     @Test
+    @Order(1)
     void filter() {
         // Arrange
         DefaultSearchDto searchDto = DefaultSearchDto.builder().build();
@@ -28,6 +33,7 @@ class QuerydslPredicateTest {
     }
 
     @Test
+    @Order(2)
     void allOf() {
         // Arrange
         final String searchField = "userName";
@@ -45,6 +51,7 @@ class QuerydslPredicateTest {
     }
 
     @Test
+    @Order(3)
     void anyOf() {
         // Arrange
         final String searchField = "userName";
@@ -65,6 +72,7 @@ class QuerydslPredicateTest {
 
 
     @Test
+    @Order(4)
     void map() {
         // Arrange
         final String searchField = "userName";
@@ -88,6 +96,7 @@ class QuerydslPredicateTest {
     }
 
     @Test
+    @Order(5)
     public void ifPresent() {
 
         // Arrange
@@ -114,6 +123,7 @@ class QuerydslPredicateTest {
     }
 
     @Test
+    @Order(6)
     public void ifPresent_BiFunction_test() {
 
         // Arrange
