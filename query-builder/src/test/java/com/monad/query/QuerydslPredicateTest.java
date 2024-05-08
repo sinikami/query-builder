@@ -119,6 +119,7 @@ class QuerydslPredicateTest {
         Predicate predicate = queryBuilder.build();
 
        // Assertion
+        Assertions.assertNotNull(predicate);
         Assertions.assertEquals(predicate, booleanBuilder.getValue());
     }
 
@@ -144,7 +145,9 @@ class QuerydslPredicateTest {
         var anyOf = pipe.anyOf(v ->v.getSearchField().equals(keyword),v->searchField.equals(v.getSearchField()));
         anyOf.ifPresent((t,e)->e.userName.eq(t.getSearchField()));
         Predicate predicate = queryBuilder.build();
+
         //Assertion
+        Assertions.assertNotNull(predicate);
         Assertions.assertEquals(predicate, booleanBuilder.getValue());
     }
 }
