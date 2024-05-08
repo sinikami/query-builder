@@ -2,6 +2,9 @@ package com.monad.query;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Objects;
+
+import org.apache.commons.lang3.ObjectUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -56,7 +59,27 @@ class QuerydslQueryBuilderTest {
     }
 
     @Test
-    void when() {
+    void when_setSearchDto_QuerydslPredicate() {
+        // Arrange
+        final String searchField = "userName";
+        final String keyword = "sinikami";
+        final DefaultSearchDto searchDto = DefaultSearchDto.builder()
+                                                           .searchField(searchField)
+                                                           .keyword(keyword)
+                                                           .build();
+
+        QTestEntity testEntity = QTestEntity.testEntity;
+
+        //Stubbing
+        QuerydslQueryBuilder<EntityPathBase> queryBuilder = QuerydslQueryBuilder.of(testEntity);
+
+        //Act
+        queryBuilder.searchDto(searchDto);
+
+        //Act && Assertion
+        assertDoesNotThrow(() -> queryBuilder.when());
+        assertEquals(queryBuilder.when() instanceof QuerydslPredicate, true);
+        assertTrue(queryBuilder.when().filter(ObjectUtils::isNotEmpty).exists());
 
     }
 
@@ -78,7 +101,7 @@ class QuerydslQueryBuilderTest {
 
 
         //Act && Assertion
-        assertThrows(NullPointerException.class, () -> queryBuilder.when());
+        assertDoesNotThrow(()->queryBuilder.when());
     }
 
     @Test
