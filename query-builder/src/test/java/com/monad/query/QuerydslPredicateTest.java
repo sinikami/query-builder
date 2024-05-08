@@ -135,6 +135,6 @@ class QuerydslPredicateTest {
         anyOf.ifPresent((t,e)->e.userName.eq(t.getSearchField()));
         Predicate predicate = queryBuilder.build();
         //Assertion
-        Assertions.assertEquals(predicate.toString(), booleanBuilder.toString());
+        Assertions.assertEquals(predicate, booleanBuilder.getValue());
     }
 }
