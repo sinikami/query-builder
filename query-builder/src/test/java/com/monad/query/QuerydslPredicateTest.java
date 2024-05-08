@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import com.monad.query.dto.DefaultSearchDto;
 import com.monad.query.entity.QTestEntity;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Predicate;
 
 class QuerydslPredicateTest {
 
@@ -83,5 +85,30 @@ class QuerydslPredicateTest {
         anyOf.peek().ifPresent(v-> {
             Assertions.assertEquals(v, keyword);
         });
+    }
+
+    @Test
+    public void ifPresent() {
+
+        // Arrange
+        final String searchField = "userName";
+        final String keyword = "sinikami";
+        final DefaultSearchDto searchDto = DefaultSearchDto.builder()
+                                                           .searchField(searchField)
+                                                           .keyword(keyword)
+                                                           .build();
+
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.and(QTestEntity.testEntity.userName.eq(searchField));
+        //Stubbing
+        QuerydslQueryBuilder<QTestEntity> queryBuilder = new QuerydslQueryBuilder(QTestEntity.testEntity);
+        QuerydslPredicate<QTestEntity, DefaultSearchDto> pipe = QuerydslPredicate.pipe(searchDto, queryBuilder);
+
+        //Act
+        var anyOf = pipe.anyOf(v ->v.getSearchField().equals(keyword),v->searchField.equals(v.getSearchField()));
+        anyOf.ifPresent(v->v.userName.eq("userName"));
+        Predicate predicate = queryBuilder.build();
+        System.out.println("predicate = " + predicate);
+        Assertions.assertEquals(predicate.toString(), booleanBuilder.toString());
     }
 }

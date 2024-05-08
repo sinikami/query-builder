@@ -36,7 +36,15 @@ public class QuerydslPredicate<E extends EntityPathBase, T> implements IPredicat
         return new QuerydslPredicate<>(target, builder);
     }
 
+    @Override
     public void ifPresent(Function<E, BooleanExpression> expression) {
+        Objects.requireNonNull(expression);
+        Objects.requireNonNull(getBuilder());
+        if (getTarget().isPresent()) {
+            BooleanExpression predicate = expression.apply(getBuilder().getFrom());
+            builder.merge(predicate);
+        }
+    }
 
     }
 
