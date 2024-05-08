@@ -21,7 +21,7 @@ class QuerydslPredicateTest {
         // Arrange
         DefaultSearchDto searchDto = DefaultSearchDto.builder().build();
 
-        QuerydslQueryBuilder<QTestEntity> queryBuilder = new QuerydslQueryBuilder(QTestEntity.testEntity);
+        QuerydslQueryBuilder<QTestEntity> queryBuilder = QuerydslQueryBuilder.of(QTestEntity.testEntity);
         QuerydslPredicate<QTestEntity, DefaultSearchDto> pipe = QuerydslPredicate.pipe(searchDto, queryBuilder);
 
         // Act
@@ -40,7 +40,7 @@ class QuerydslPredicateTest {
         final DefaultSearchDto searchDto = DefaultSearchDto.builder()
                                                            .searchField(searchField)
                                                            .build();
-        QuerydslQueryBuilder<QTestEntity> queryBuilder = new QuerydslQueryBuilder(QTestEntity.testEntity);
+        QuerydslQueryBuilder<QTestEntity> queryBuilder = QuerydslQueryBuilder.of(QTestEntity.testEntity);
         QuerydslPredicate<QTestEntity, DefaultSearchDto> pipe = QuerydslPredicate.pipe(searchDto, queryBuilder);
 
         // Act
@@ -60,7 +60,7 @@ class QuerydslPredicateTest {
                                                            .searchField(searchField)
                                                            .keyword(keyword)
                                                            .build();
-        QuerydslQueryBuilder<QTestEntity> queryBuilder = new QuerydslQueryBuilder(QTestEntity.testEntity);
+        QuerydslQueryBuilder<QTestEntity> queryBuilder = QuerydslQueryBuilder.of(QTestEntity.testEntity);
         QuerydslPredicate<QTestEntity, DefaultSearchDto> pipe = QuerydslPredicate.pipe(searchDto, queryBuilder);
 
         // Act
@@ -81,7 +81,7 @@ class QuerydslPredicateTest {
                                                            .searchField(searchField)
                                                            .keyword(keyword)
                                                            .build();
-        QuerydslQueryBuilder<QTestEntity> queryBuilder = new QuerydslQueryBuilder(QTestEntity.testEntity);
+        QuerydslQueryBuilder<QTestEntity> queryBuilder = QuerydslQueryBuilder.of(QTestEntity.testEntity);
         QuerydslPredicate<QTestEntity, DefaultSearchDto> pipe = QuerydslPredicate.pipe(searchDto, queryBuilder);
 
         // Act
@@ -110,7 +110,7 @@ class QuerydslPredicateTest {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         booleanBuilder.and(QTestEntity.testEntity.userName.eq(searchField));
         //Stubbing
-        QuerydslQueryBuilder<QTestEntity> queryBuilder = new QuerydslQueryBuilder(QTestEntity.testEntity);
+        QuerydslQueryBuilder<QTestEntity> queryBuilder =  QuerydslQueryBuilder.of(QTestEntity.testEntity);
         QuerydslPredicate<QTestEntity, DefaultSearchDto> pipe = QuerydslPredicate.pipe(searchDto, queryBuilder);
 
         //Act
@@ -119,7 +119,7 @@ class QuerydslPredicateTest {
         Predicate predicate = queryBuilder.build();
 
        // Assertion
-        Assertions.assertEquals(predicate.toString(), booleanBuilder.toString());
+        Assertions.assertEquals(predicate, booleanBuilder.getValue());
     }
 
     @Test
@@ -137,7 +137,7 @@ class QuerydslPredicateTest {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         booleanBuilder.and(QTestEntity.testEntity.userName.eq(searchField));
         //Stubbing
-        QuerydslQueryBuilder<QTestEntity> queryBuilder = new QuerydslQueryBuilder(QTestEntity.testEntity);
+        QuerydslQueryBuilder<QTestEntity> queryBuilder = QuerydslQueryBuilder.of(QTestEntity.testEntity);
         QuerydslPredicate<QTestEntity, DefaultSearchDto> pipe = QuerydslPredicate.pipe(searchDto, queryBuilder);
 
         //Act
