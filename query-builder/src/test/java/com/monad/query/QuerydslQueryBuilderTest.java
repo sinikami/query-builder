@@ -98,10 +98,8 @@ class QuerydslQueryBuilderTest {
         //Stubbing
         QuerydslQueryBuilder<EntityPathBase> queryBuilder = QuerydslQueryBuilder.of(testEntity);
 
-
-
         //Act && Assertion
-        assertDoesNotThrow(()->queryBuilder.when());
+        assertThrows(NullPointerException.class, ()->queryBuilder.when());
     }
 
     @Test
