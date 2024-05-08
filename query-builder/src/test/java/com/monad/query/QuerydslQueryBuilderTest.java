@@ -83,6 +83,23 @@ class QuerydslQueryBuilderTest {
 
     @Test
     void searchDto() {
+        // Arrange
+        final String searchField = "userName";
+        final String keyword = "sinikami";
+        final DefaultSearchDto searchDto = DefaultSearchDto.builder()
+                                                           .searchField(searchField)
+                                                           .keyword(keyword)
+                                                           .build();
 
+        QTestEntity testEntity = QTestEntity.testEntity;
+
+        //Stubbing
+        QuerydslQueryBuilder<EntityPathBase> queryBuilder = QuerydslQueryBuilder.of(testEntity);
+
+        //Act
+        queryBuilder.searchDto(searchDto);
+
+        //Assertion
+        assertDoesNotThrow(()->queryBuilder.when());
     }
 }
