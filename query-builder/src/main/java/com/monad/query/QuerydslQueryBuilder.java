@@ -112,6 +112,7 @@ public class QuerydslQueryBuilder<E extends EntityPathBase> extends AbstractBuil
 
     @Override
     public <S extends DefaultSearchDto> QuerydslPredicate<E, S> when() {
+        Objects.requireNonNull(getDefaultSearchDto());
         return when((S) getDefaultSearchDto());
     }
 
