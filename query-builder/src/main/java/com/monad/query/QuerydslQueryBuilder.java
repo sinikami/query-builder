@@ -66,7 +66,10 @@ public class QuerydslQueryBuilder<E extends EntityPathBase> extends AbstractBuil
 
     @Override
     public QuerydslQueryBuilder<E> either(Function<E, Predicate> expression) {
-        return null;
+        Objects.requireNonNull(getBooleanBuilder());
+        final Predicate predicate = expression.apply(getFrom());
+        getBooleanBuilder().or(predicate);
+        return this;
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import com.monad.query.dto.DefaultSearchDto;
 import com.monad.query.entity.QTestEntity;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.annotations.QueryTransient;
 import com.querydsl.core.types.dsl.EntityPathBase;
 
 class QuerydslQueryBuilderTest {
@@ -63,6 +64,18 @@ class QuerydslQueryBuilderTest {
 
     @Test
     void testEither() {
+        //Act
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.or(testEntity.userName.eq(searchField));
+
+        //Stubbing
+        QuerydslQueryBuilder<QTestEntity>queryBuilder = QuerydslQueryBuilder.of(testEntity);
+
+        //Act
+        queryBuilder.either(e->e.userName.eq(searchField));
+
+        //Assertion
+        assertEquals(queryBuilder.build(), booleanBuilder.getValue());
     }
 
     @Test
