@@ -47,6 +47,18 @@ class QuerydslQueryBuilderTest {
 
     @Test
     void either() {
+        //Act
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.or(testEntity.userName.eq(searchField));
+
+        //Stubbing
+        QuerydslQueryBuilder<EntityPathBase> queryBuilder = QuerydslQueryBuilder.of(testEntity);
+
+        //Act
+        queryBuilder.either(testEntity.userName.eq(searchField));
+
+        //Assertion
+        assertEquals(queryBuilder.build(), booleanBuilder.getValue());
     }
 
     @Test
