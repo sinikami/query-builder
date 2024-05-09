@@ -20,7 +20,7 @@ import lombok.Setter;
 public class QuerydslPredicate<E extends EntityPathBase, T> implements IPredicate<E, T> {
     private Optional<T> target;
     private QuerydslQueryBuilder<E> builder;
-    private static QuerydslPredicate QuerydslPredicate;
+    private QuerydslPredicate QuerydslPredicate;
 
     private QuerydslPredicate() {}
     private QuerydslPredicate(T target, QuerydslQueryBuilder<E> builder) {
