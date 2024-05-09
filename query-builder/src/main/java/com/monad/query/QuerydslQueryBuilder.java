@@ -52,7 +52,9 @@ public class QuerydslQueryBuilder<E extends EntityPathBase> extends AbstractBuil
 
     @Override
     public QuerydslQueryBuilder<E> merge(Predicate predicate) {
-        return null;
+        Objects.requireNonNull(getBooleanBuilder());
+        getBooleanBuilder().and(predicate);
+        return this;
     }
 
     @Override
