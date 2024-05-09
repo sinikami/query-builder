@@ -36,7 +36,7 @@ public class QuerydslQueryBuilder<E extends EntityPathBase> extends AbstractBuil
 
     private QuerydslQueryBuilder() {}
 
-    public QuerydslQueryBuilder(E from) {
+    private QuerydslQueryBuilder(E from) {
         this.from = from;
         booleanBuilder = new BooleanBuilder();
     }
