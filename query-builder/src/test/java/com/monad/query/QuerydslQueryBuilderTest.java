@@ -6,16 +6,43 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.monad.query.dto.DefaultSearchDto;
 import com.monad.query.entity.QTestEntity;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.EntityPathBase;
 
 class QuerydslQueryBuilderTest {
+    DefaultSearchDto searchDto;
+    String searchField = "userName";
+    String keyword = "sinikami";
+    QTestEntity testEntity = QTestEntity.testEntity;
 
+    @BeforeEach
+    public void init(){
+
+        searchDto = DefaultSearchDto.builder()
+                                    .searchField(searchField)
+                                    .keyword(keyword)
+                                    .build();
+    }
     @Test
     void merge() {
+
+        //Act
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.and(testEntity.userName.eq(searchField));
+
+        //Stubbing
+        QuerydslQueryBuilder<EntityPathBase> queryBuilder = QuerydslQueryBuilder.of(testEntity);
+
+        //Act
+        queryBuilder.merge(testEntity.userName.eq(searchField));
+
+        //Assertion
+        assertEquals(queryBuilder.build(), booleanBuilder.getValue());
     }
 
     @Test
