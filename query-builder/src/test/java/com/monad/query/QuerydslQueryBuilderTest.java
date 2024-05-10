@@ -34,13 +34,13 @@ class QuerydslQueryBuilderTest {
 
         //Act
         BooleanBuilder booleanBuilder = new BooleanBuilder();
-        booleanBuilder.and(testEntity.userName.eq(searchField));
+        booleanBuilder.and(testEntity.userName.eq(keyword));
 
         //Stubbing
         QuerydslQueryBuilder<EntityPathBase> queryBuilder = QuerydslQueryBuilder.of(testEntity);
 
         //Act
-        queryBuilder.merge(testEntity.userName.eq(searchField));
+        queryBuilder.merge(testEntity.userName.eq(keyword));
 
         //Assertion
         assertEquals(queryBuilder.build(), booleanBuilder.getValue());
@@ -50,13 +50,13 @@ class QuerydslQueryBuilderTest {
     void either() {
         //Act
         BooleanBuilder booleanBuilder = new BooleanBuilder();
-        booleanBuilder.or(testEntity.userName.eq(searchField));
+        booleanBuilder.or(testEntity.userName.eq(keyword));
 
         //Stubbing
         QuerydslQueryBuilder<EntityPathBase> queryBuilder = QuerydslQueryBuilder.of(testEntity);
 
         //Act
-        queryBuilder.either(testEntity.userName.eq(searchField));
+        queryBuilder.either(testEntity.userName.eq(keyword));
 
         //Assertion
         assertEquals(queryBuilder.build(), booleanBuilder.getValue());
@@ -66,13 +66,13 @@ class QuerydslQueryBuilderTest {
     void testEither() {
         //Act
         BooleanBuilder booleanBuilder = new BooleanBuilder();
-        booleanBuilder.or(testEntity.userName.eq(searchField));
+        booleanBuilder.or(testEntity.userName.eq(keyword));
 
         //Stubbing
         QuerydslQueryBuilder<QTestEntity>queryBuilder = QuerydslQueryBuilder.of(testEntity);
 
         //Act
-        queryBuilder.either(e->e.userName.eq(searchField));
+        queryBuilder.either(e->e.userName.eq(keyword));
 
         //Assertion
         assertEquals(queryBuilder.build(), booleanBuilder.getValue());
