@@ -138,7 +138,10 @@ public class QuerydslQueryBuilder<E extends EntityPathBase> extends AbstractBuil
     }
 
     private Predicate[] toPredicateArray(Function<E, Predicate>[] expressions) {
-        return null;
+        final Predicate[] predicates = Arrays.stream(expressions)
+                                             .map(v -> v.apply(getFrom()))
+                                             .toArray(Predicate[]::new);
+        return predicates;
     }
 
     @Override
