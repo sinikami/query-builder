@@ -80,6 +80,18 @@ class QuerydslQueryBuilderTest {
 
     @Test
     void with() {
+        //Act
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.and(testEntity.userName.eq(keyword));
+
+        //Stubbing
+        QuerydslQueryBuilder<QTestEntity>queryBuilder = QuerydslQueryBuilder.of(testEntity);
+
+        //Act
+        queryBuilder.with(e->e.userName.eq(keyword));
+
+        //Assertion
+        assertEquals(queryBuilder.build(), booleanBuilder.getValue());
     }
 
     @Test
