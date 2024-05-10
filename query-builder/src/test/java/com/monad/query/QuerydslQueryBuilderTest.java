@@ -1,18 +1,17 @@
 package com.monad.query;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Objects;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.monad.query.dto.DefaultSearchDto;
 import com.monad.query.entity.QTestEntity;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.annotations.QueryTransient;
 import com.querydsl.core.types.dsl.EntityPathBase;
 
 class QuerydslQueryBuilderTest {
@@ -96,6 +95,18 @@ class QuerydslQueryBuilderTest {
 
     @Test
     void anyOf() {
+        //Act
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.andAnyOf(testEntity.userName.isNull(),testEntity.userName.eq(keyword));
+
+        //Stubbing
+        QuerydslQueryBuilder<QTestEntity>queryBuilder = QuerydslQueryBuilder.of(testEntity);
+
+        //Act
+        queryBuilder.anyOf(e -> e.userName.isNull(), e -> e.userName.eq(keyword));
+
+        //Assertion
+        assertEquals(queryBuilder.build(), booleanBuilder.getValue());
     }
 
     @Test
