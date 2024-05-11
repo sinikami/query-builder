@@ -2,6 +2,7 @@ package com.monad.query;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -115,6 +116,52 @@ class QuerydslQueryBuilderTest {
 
     @Test
     void allOf() {
+        //Act
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.and(testEntity.userName.isNotNull());
+        booleanBuilder.and(testEntity.userName.eq(keyword));
+
+        //Stubbing
+        QuerydslQueryBuilder<QTestEntity>queryBuilder = QuerydslQueryBuilder.of(testEntity);
+
+        //Act
+        queryBuilder.allOf(e -> e.userName.isNotNull(), e -> e.userName.eq(keyword));
+
+        //Assertion
+        assertEquals(queryBuilder.build(), booleanBuilder.getValue());
+    }
+    @Test
+    void allOfBooleanExpressionSucceed() {
+        //Act
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.and(testEntity.userName.isNotNull());
+        booleanBuilder.and(testEntity.userName.eq(keyword));
+
+        //Stubbing
+        QuerydslQueryBuilder<QTestEntity>queryBuilder = QuerydslQueryBuilder.of(testEntity);
+
+        //Act
+        queryBuilder.allOf(testEntity.userName.isNotNull(),testEntity.userName.eq(keyword));
+
+        //Assertion
+        assertEquals(queryBuilder.build(), booleanBuilder.getValue());
+    }
+
+    @Test
+    void allOfFailed() {
+        //Act
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.and(testEntity.userName.isNull());
+        booleanBuilder.and(testEntity.userName.eq(keyword));
+
+        //Stubbing
+        QuerydslQueryBuilder<QTestEntity>queryBuilder = QuerydslQueryBuilder.of(testEntity);
+
+        //Act
+        queryBuilder.allOf(e -> e.userName.isNotNull(), e -> e.userName.eq(keyword));
+
+        //Assertion
+        assertNotEquals(queryBuilder.build(), booleanBuilder.getValue());
     }
 
     @Test
