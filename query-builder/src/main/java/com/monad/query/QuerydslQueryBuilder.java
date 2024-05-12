@@ -128,7 +128,9 @@ public class QuerydslQueryBuilder<E extends EntityPathBase> extends AbstractBuil
 
     @Override
     public QuerydslQueryBuilder<E> orAnyOf(BooleanExpression... expressions) {
-        return null;
+        Objects.requireNonNull(getBooleanBuilder());
+        either(ExpressionUtils.anyOf(expressions));
+        return this;
     }
 
     @Override

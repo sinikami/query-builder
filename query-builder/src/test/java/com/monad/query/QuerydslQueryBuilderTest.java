@@ -168,15 +168,19 @@ class QuerydslQueryBuilderTest {
     }
 
     @Test
-    void testAllOf() {
-    }
-
-    @Test
-    void testAnyOf() {
-    }
-
-    @Test
     void orAnyOf() {
+        //Act
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.or(new BooleanBuilder().or(testEntity.userName.isNotNull()).or(testEntity.userName.eq(keyword)));
+
+        //Stubbing
+        QuerydslQueryBuilder<QTestEntity>queryBuilder = QuerydslQueryBuilder.of(testEntity);
+
+        //Act
+        queryBuilder.orAnyOf(testEntity.userName.isNotNull(),testEntity.userName.eq(keyword));
+
+        //Assertion
+        assertEquals(queryBuilder.build().toString(), booleanBuilder.getValue().toString());
     }
 
     @Test
