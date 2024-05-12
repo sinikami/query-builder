@@ -113,9 +113,6 @@ class QuerydslQueryBuilderTest {
         assertEquals(queryBuilder.build(), booleanBuilder.getValue());
     }
 
-    @Test
-    void orAllOf() {
-    }
 
     @Test
     void allOf() {
@@ -184,7 +181,35 @@ class QuerydslQueryBuilderTest {
     }
 
     @Test
-    void testOrAllOf() {
+    void orAllOf_BooleanExpression_Succeed() {
+        //Act
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.or(new BooleanBuilder().and(testEntity.userName.isNotNull()).and(testEntity.userName.eq(keyword)));
+
+        //Stubbing
+        QuerydslQueryBuilder<QTestEntity>queryBuilder = QuerydslQueryBuilder.of(testEntity);
+
+        //Act
+        queryBuilder.orAllOf(testEntity.userName.isNotNull(),testEntity.userName.eq(keyword));
+
+        //Assertion
+        assertEquals(queryBuilder.build().toString(), booleanBuilder.getValue().toString());
+    }
+
+    @Test
+    void orAllOf() {
+        //Act
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.or(new BooleanBuilder().and(testEntity.userName.isNotNull()).and(testEntity.userName.eq(keyword)));
+
+        //Stubbing
+        QuerydslQueryBuilder<QTestEntity>queryBuilder = QuerydslQueryBuilder.of(testEntity);
+
+        //Act
+        queryBuilder.orAllOf(e->e.userName.isNotNull(),e->e.userName.eq(keyword));
+
+        //Assertion
+        assertEquals(queryBuilder.build().toString(), booleanBuilder.getValue().toString());
     }
 
     @Test

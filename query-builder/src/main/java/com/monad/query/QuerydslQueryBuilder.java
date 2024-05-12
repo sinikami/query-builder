@@ -98,7 +98,10 @@ public class QuerydslQueryBuilder<E extends EntityPathBase> extends AbstractBuil
 
     @Override
     public QuerydslQueryBuilder<E> orAllOf(Function<E, Predicate>... expressions) {
-        return null;
+        Objects.requireNonNull(getBooleanBuilder());
+        Predicate[] predicates = toPredicateArray(expressions);
+        getBooleanBuilder().orAllOf(predicates);
+        return this;
     }
 
     @Override
@@ -135,7 +138,9 @@ public class QuerydslQueryBuilder<E extends EntityPathBase> extends AbstractBuil
 
     @Override
     public QuerydslQueryBuilder<E> orAllOf(BooleanExpression... expressions) {
-        return null;
+        Objects.requireNonNull(getBooleanBuilder());
+        merge(ExpressionUtils.allOf(expressions));
+        return this;
     }
 
     @Override
