@@ -185,16 +185,6 @@ class QuerydslQueryBuilderTest {
 
     @Test
     void when_setSearchDto_QuerydslPredicate() {
-        // Arrange
-        final String searchField = "userName";
-        final String keyword = "sinikami";
-        final DefaultSearchDto searchDto = DefaultSearchDto.builder()
-                                                           .searchField(searchField)
-                                                           .keyword(keyword)
-                                                           .build();
-
-        QTestEntity testEntity = QTestEntity.testEntity;
-
         //Stubbing
         QuerydslQueryBuilder<EntityPathBase> queryBuilder = QuerydslQueryBuilder.of(testEntity);
 
@@ -210,16 +200,6 @@ class QuerydslQueryBuilderTest {
 
     @Test
     void when_withNoSearchDto_throwsException() {
-        // Arrange
-        final String searchField = "userName";
-        final String keyword = "sinikami";
-        final DefaultSearchDto searchDto = DefaultSearchDto.builder()
-                                                           .searchField(searchField)
-                                                           .keyword(keyword)
-                                                           .build();
-
-        QTestEntity testEntity = QTestEntity.testEntity;
-
         //Stubbing
         QuerydslQueryBuilder<EntityPathBase> queryBuilder = QuerydslQueryBuilder.of(testEntity);
 
