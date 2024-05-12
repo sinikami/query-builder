@@ -2,6 +2,7 @@ package com.monad.query;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -119,13 +120,6 @@ public class QuerydslQueryBuilder<E extends EntityPathBase> extends AbstractBuil
     public QuerydslQueryBuilder<E> allOf(BooleanExpression... expressions) {
         Objects.requireNonNull(getBooleanBuilder());
         merge(ExpressionUtils.allOf(expressions));
-        return this;
-    }
-
-    @Override
-    public QuerydslQueryBuilder<E> anyOf(BooleanExpression... expressions) {
-        Objects.requireNonNull(getBooleanBuilder());
-        merge(ExpressionUtils.anyOf(expressions));
         return this;
     }
 
