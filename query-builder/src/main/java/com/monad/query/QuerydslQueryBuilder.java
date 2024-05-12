@@ -168,6 +168,13 @@ public class QuerydslQueryBuilder<E extends EntityPathBase> extends AbstractBuil
     }
 
     public Expression[] groupBy(String... args) {
-        return null;
+        if (ObjectUtils.isEmpty(args)) {
+            return new NullExpression[] {};
+        }
+        return Stream.of(args)
+                     .filter(ObjectUtils::isNotEmpty)
+                     .map(v -> Expressions.path(getFrom().getType(), getFrom(), v))
+                     .collect(Collectors.toList())
+                     .toArray(size->new Expression[size]);
     }
 }

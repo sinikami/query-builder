@@ -6,13 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.monad.query.dto.DefaultSearchDto;
 import com.monad.query.entity.QTestEntity;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.EntityPathBase;
 
 class QuerydslQueryBuilderTest {
@@ -226,15 +229,7 @@ class QuerydslQueryBuilderTest {
 
     @Test
     void searchDto() {
-        // Arrange
-        final String searchField = "userName";
-        final String keyword = "sinikami";
-        final DefaultSearchDto searchDto = DefaultSearchDto.builder()
-                                                           .searchField(searchField)
-                                                           .keyword(keyword)
-                                                           .build();
 
-        QTestEntity testEntity = QTestEntity.testEntity;
 
         //Stubbing
         QuerydslQueryBuilder<EntityPathBase> queryBuilder = QuerydslQueryBuilder.of(testEntity);
@@ -244,5 +239,17 @@ class QuerydslQueryBuilderTest {
 
         //Assertion
         assertDoesNotThrow(()->queryBuilder.when());
+    }
+
+    @Test
+    void groupBy() {
+        //Stubbing
+        QuerydslQueryBuilder<EntityPathBase> queryBuilder = QuerydslQueryBuilder.of(testEntity);
+
+        //Act
+        Expression[] userNames = queryBuilder.groupBy("userName");
+
+        //Assertion
+        assertTrue(ArrayUtils.contains(userNames, testEntity.userName));
     }
 }
