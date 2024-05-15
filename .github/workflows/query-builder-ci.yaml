@@ -23,8 +23,7 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: gradle
-          cache-dependency-path: | 
-            *.gradle*
+          cache-dependency-path: |
             **/gradle-wrapper.properties
 
       - name: Query-Builder CI
@@ -64,8 +63,7 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: gradle
-          cache-dependency-path: |
-            *.gradle*
+          cache-dependency-path: | 
             **/gradle-wrapper.properties
 
       - name: Example CI
