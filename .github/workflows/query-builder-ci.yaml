@@ -27,6 +27,11 @@ jobs:
       - name: Query-Builder CI
         run: |
           ./gradlew :query-builder:check
+      - name: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: source code
+          path: .
 
       - name: Publish Builder Test Report
         uses: mikepenz/action-junit-report@v4
@@ -44,15 +49,17 @@ jobs:
       id-token: write
     timeout-minutes: 3
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin'
           cache: gradle
+
+      - name: download
+        uses: actions/download-artifact@v4
+        with:
+          name: source code
       - name: Example CI
         run: |
           ./gradlew :example:check
