@@ -6,7 +6,7 @@ on:
       - feature/*
 
 jobs:
-  CI:
+  query-builder-ci:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -24,11 +24,40 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: CI
+      - name: Query-Builder CI
         run: |
-           ./gradlew :query-builder:check
+          ./gradlew :query-builder:check
 
-      - name: Publish Test Report
+      - name: Publish Builder Test Report
+        uses: mikepenz/action-junit-report@v4
+        if: success() || failure() # always run even if the previous step fails
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.xml'
+          #token:  ${{ secrets.TOKEN }}
+  example-ci:
+    needs:
+      - query-builder-ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+      id-token: write
+    timeout-minutes: 3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+      - name: Example CI
+        run: |
+          ./gradlew :example:check
+
+      - name: Publish Example Test Report
         uses: mikepenz/action-junit-report@v4
         if: success() || failure() # always run even if the previous step fails
         with:
