@@ -43,8 +43,6 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.projectlombok:lombok'
 
-    testImplementation 'com.h2database:h2:2.2.224'
-
     testImplementation "com.querydsl:querydsl-core:5.0.0"
     testImplementation "com.querydsl:querydsl-jpa:5.0.0"
     testAnnotationProcessor "com.querydsl:querydsl-apt:5.0.0:jpa"
@@ -66,4 +64,14 @@ tasks.named('test') {
 
 java {
     withSourcesJar()
+}
+
+project(":query-builder") {
+    jar {
+        archiveBaseName = project.name
+        // destinationDirectory = file(getLayout().getBuildDirectory().get())
+    }
+
+    bootJar.enabled = false
+    jar.enabled = true
 }
