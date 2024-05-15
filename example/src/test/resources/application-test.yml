@@ -1,4 +1,9 @@
 spring:
+  profiles:
+    active: test
+  config:
+    activate:
+      on-profile: test
   application:
     name: example
   jpa:
