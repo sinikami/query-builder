@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: example
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        ddl-auto: create-drop
+        generate-ddl: true
+        connection:
+          provider_disables_autocommit: true
+        hbm2ddl:
+          auto: create-drop
+    show-sql: true
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:mem:mock;DB_CLOSE_DELAY=-1;MODE=MySQL
+      username: test
+      password: test
+      driver-class-name: org.h2.Driver
+
